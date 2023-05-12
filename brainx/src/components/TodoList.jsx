@@ -69,6 +69,8 @@ export default function TodoList(){
 
             <ul>
                 <TodoItem/>
+                <TodoItem/>
+                <TodoItem/>
             </ul>
         </TodoListStyle>
     )
