@@ -49,7 +49,7 @@ span{
         color: ${primaryColor};
     }
     h3{
-        /* text-decoration: line-through; */
+         text-decoration: ${(props)=> props.checked && "line-through" } ; 
     }
     h2{
         color: ${primaryColor};
@@ -57,19 +57,32 @@ span{
 }
 `;
 
-const handleCheckItem = () =>{
-    
-}
 
 export default function TodoItem(){
+    const [isChecked, setIsChecked] = useState({
+        completed: false,
+        button: false,
+    });
+
+
+const handleCheckItem = () =>{
+    setIsChecked({completed: !isChecked.completed,
+         button: !isChecked,
+        });
+};
+
   return(
-    <TodoItemStyle>
+    <TodoItemStyle {...{checked: isChecked.completed}} 
+    onClick={handleCheckItem}>
         <span>
             <h4>nr</h4>
             <h3>Todo item</h3>
             <h2>Category</h2>
         </span>
+        {isChecked.button && (
         <button><FaTrash/></button>
+        )}
     </TodoItemStyle>
+
   )   
 }
