@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import styled, {keyframes} from "styled-components";
 import {FaTrash} from "react-icons/fa";
 
@@ -56,6 +56,10 @@ span{
     }
 }
 `;
+
+const handleCheckItem = () =>{
+    
+}
 
 export default function TodoItem(){
   return(
