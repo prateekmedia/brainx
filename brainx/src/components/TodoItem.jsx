@@ -58,7 +58,7 @@ span{
 `;
 
 
-export default function TodoItem({nr, todo}){
+export default function TodoItem({nr, todo, deleteTodo}){
     const [isChecked, setIsChecked] = useState({
         completed: false,
         button: false,
@@ -82,7 +82,7 @@ const handleCheckItem = () =>{
             <h2>Category</h2>
         </span>
         {isChecked.button && (
-        <button><FaTrash/></button>
+        <button onClick={deleteTodo}><FaTrash/></button>
         )}
     </TodoItemStyle>
 

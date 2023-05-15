@@ -71,6 +71,14 @@ export default function TodoList(){
     const handleInputChange = (e) =>{
         setInputValue(e.target.value);
     }
+    const handleDeleteTodo = (index)=>{
+        if(!window.confirm("Are you sure you want to delete this item?")){
+            return;
+        }
+        const newTodos = [...todos];
+        newTodos.splice(index, 1);
+        setTodos(newTodos);
+    };
 
     return(
         <TodoListStyle>
@@ -85,7 +93,7 @@ export default function TodoList(){
                 <TodoItem/>
                 <TodoItem/> */}
 
-                {todos.map((todo, index)=>(<TodoItem nr={index} todo={todo}/>))}
+                {todos.map((todo, index)=>(<TodoItem key={index} nr={index} todo={todo} deleteTodo={handleDeleteTodo} />))}
             </ul>
         </TodoListStyle>
     )
