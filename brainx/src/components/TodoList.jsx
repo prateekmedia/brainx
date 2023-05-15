@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components"
 import TodoItem from "./TodoItem";
 
@@ -53,24 +53,39 @@ button{
 `;
 
 export default function TodoList(){
+
+    const [todos, setTodos] = useState([]);
+    const [inputValue, setInputValue] = useState("");
+
+
     document.body.style = "background:#3ad4b0";
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("submit");
+
+        inputValue ==="" && alert("Add item");
+        setTodos([...todos, inputValue.toUpperCase()]);
+        setInputValue("");
+    }
+
+    const handleInputChange = (e) =>{
+        setInputValue(e.target.value);
     }
 
     return(
         <TodoListStyle>
             <h1>Brainx</h1>
-            <form onSubmit={""}>
-                <input placeholder="Add Task" />
+            <form onSubmit={handleSubmit}>
+                <input placeholder="Add Task" value={inputValue} onChange={handleInputChange}/>
                 <button type="submit">Add</button>
             </form>
 
             <ul>
+                {/* <TodoItem/>
                 <TodoItem/>
-                <TodoItem/>
-                <TodoItem/>
+                <TodoItem/> */}
+
+                {todos.map((todo, index)=>(<TodoItem nr={index} todo={todo}/>))}
             </ul>
         </TodoListStyle>
     )

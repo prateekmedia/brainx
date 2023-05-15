@@ -14,7 +14,7 @@ const shrink = keyframes`
 const primaryColor = "#3ad4b0";
 const  TodoItemStyle = styled.li`
 list-style-type = none;
-color: #ddd;
+color: ${(props)=> (props.checked ? "gray": "#fff")};
 border: 1px solid ${primaryColor};
 border-radius: 5px;
 margin-bottom: 1rem;
@@ -58,7 +58,7 @@ span{
 `;
 
 
-export default function TodoItem(){
+export default function TodoItem({nr, todo}){
     const [isChecked, setIsChecked] = useState({
         completed: false,
         button: false,
@@ -73,10 +73,12 @@ const handleCheckItem = () =>{
 
   return(
     <TodoItemStyle {...{checked: isChecked.completed}} 
-    onClick={handleCheckItem}>
+    onClick={handleCheckItem}
+    className={isChecked.completed && "checked"}>
+        
         <span>
-            <h4>nr</h4>
-            <h3>Todo item</h3>
+            <h4>{nr + 1}</h4>
+            <h3>{todo}</h3>
             <h2>Category</h2>
         </span>
         {isChecked.button && (
