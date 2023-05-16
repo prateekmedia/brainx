@@ -34,7 +34,7 @@ button{
 &:hover{
     background-color: #d44a4a;
     h4, button{
-        color: #111;
+        color: ${primaryColor};
     }
 }
 &.checked{
@@ -67,7 +67,7 @@ export default function TodoItem({nr, todo, deleteTodo}){
 
 const handleCheckItem = () =>{
     setIsChecked({completed: !isChecked.completed,
-         button: !isChecked,
+         button: !isChecked.button,
         });
 };
 
@@ -80,6 +80,7 @@ const handleCheckItem = () =>{
             <h4>{nr + 1}</h4>
             <h3>{todo}</h3>
             <h2>Category</h2>
+           
         </span>
         {isChecked.button && (
         <button onClick={deleteTodo}><FaTrash/></button>
