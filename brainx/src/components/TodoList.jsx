@@ -155,17 +155,4 @@ export default function TodoList(){
     
 
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     console.log("submit");
-
-    //     inputValue ==="" && alert("Add item");
-    //     const newTodo = {
-    //         todo: inputValue.toUpperCase(),
-    //         category: selectedCategory,
-    //       };
-      
-    //       setTodos([...todos, newTodo]);
-    //       setInputValue("");
-    // }
 
