@@ -1,6 +1,8 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components"
 import TodoItem from "./TodoItem";
+import { v4 as uuidv4 } from "uuid";
+
 
 const primaryColor = "#3ad4b0";
 const TodoListStyle = styled.div`
@@ -54,27 +56,52 @@ button{
 
 export default function TodoList(){
 
-    const [todos, setTodos] = useState([]);
+    //const [todos, setTodos] = useState([]);
+
+    const [todos, setTodos] = useState(() => {
+        const storedTodos = localStorage.getItem("todos");
+        return storedTodos ? JSON.parse(storedTodos) : [];
+      });
+      
+
     const [inputValue, setInputValue] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("Academic");
 
-
     document.body.style = "background:#3ad4b0";
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("submit");
 
-        inputValue ==="" && alert("Add item");
-        const newTodo = {
-            todo: inputValue.toUpperCase(),
-            category: selectedCategory,
-          };
+    useEffect(() => {
+        const storedTodos = localStorage.getItem("todos");
+        if (storedTodos) {
+          setTodos(JSON.parse(storedTodos));
+        }
+      }, []);
       
-          setTodos([...todos, newTodo]);
-          setInputValue("");
-    }
 
-    const handleInputChange = (e) =>{
+      useEffect(() => {
+        localStorage.setItem("todos", JSON.stringify(todos));
+      }, [todos]);
+    
+      
+     
+      const handleSubmit = (e) => {
+        e.preventDefault();
+      
+        if (inputValue === "") {
+          alert("Add item");
+          return;
+        }
+      
+        const newTodo = {
+          id: uuidv4(), 
+          todo: inputValue.toUpperCase(),
+          category: selectedCategory,
+        };
+      
+        setTodos([...todos, newTodo]);
+        setInputValue("");
+      };
+   
+      const handleInputChange = (e) =>{
         setInputValue(e.target.value);
     };
     const handleCategoryChange = (e) => {
@@ -117,9 +144,28 @@ export default function TodoList(){
                 nr={index}
                 todo={todo.todo}
                 category={todo.category}
-                deleteTodo={() => handleDeleteTodo(todo.id)} />))}
+                deleteTodo={() => handleDeleteTodo(index)} />))}
             </ul>
         </TodoListStyle>
     )
 }
+
+       
+      
+    
+
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     console.log("submit");
+
+    //     inputValue ==="" && alert("Add item");
+    //     const newTodo = {
+    //         todo: inputValue.toUpperCase(),
+    //         category: selectedCategory,
+    //       };
+      
+    //       setTodos([...todos, newTodo]);
+    //       setInputValue("");
+    // }
 
