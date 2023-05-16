@@ -17,7 +17,7 @@ list-style-type = none;
 color: ${(props)=> (props.checked ? "gray": "#fff")};
 border: 1px solid ${primaryColor};
 border-radius: 5px;
-margin-bottom: 1rem;
+margin: 1rem;
 display: flex;
 justify-content: space-between;
 transition: all 0.3s ease-in-out;
@@ -46,10 +46,12 @@ span{
     
     h4{
         margin-right: 1rem;
+        margin-left: 0.5rem;
         color: ${primaryColor};
     }
     h3{
          text-decoration: ${(props)=> props.checked && "line-through" } ; 
+         margin: 1rem;
     }
     h2{
         color: ${primaryColor};
