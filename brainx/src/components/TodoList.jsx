@@ -21,7 +21,7 @@ form{
     align-items: center;
     margin-top: 1.5rem;
 }
-input{
+input, select{
     padding: 0.5rem;
     background: #ddd;
     border: none;
@@ -85,6 +85,17 @@ export default function TodoList(){
             <h1>Brainx</h1>
             <form onSubmit={handleSubmit}>
                 <input placeholder="Add Task" value={inputValue} onChange={handleInputChange}/>
+                
+                
+     
+
+                <select name="category" id="category">
+                <option value="Academic">Academic</option>
+                <option value="Leisure">Leisure</option>
+                <option value="Business">Business</option>
+                
+                </select> 
+
                 <button type="submit">Add</button>
             </form>
 
