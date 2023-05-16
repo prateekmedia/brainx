@@ -56,6 +56,7 @@ export default function TodoList(){
 
     const [todos, setTodos] = useState([]);
     const [inputValue, setInputValue] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("Academic");
 
 
     document.body.style = "background:#3ad4b0";
@@ -64,13 +65,21 @@ export default function TodoList(){
         console.log("submit");
 
         inputValue ==="" && alert("Add item");
-        setTodos([...todos, inputValue.toUpperCase()]);
-        setInputValue("");
+        const newTodo = {
+            todo: inputValue.toUpperCase(),
+            category: selectedCategory,
+          };
+      
+          setTodos([...todos, newTodo]);
+          setInputValue("");
     }
 
     const handleInputChange = (e) =>{
         setInputValue(e.target.value);
-    }
+    };
+    const handleCategoryChange = (e) => {
+        setSelectedCategory(e.target.value);
+      };
     const handleDeleteTodo = (index)=>{
         if(!window.confirm("Are you sure you want to delete this item?")){
             return;
@@ -86,10 +95,10 @@ export default function TodoList(){
             <form onSubmit={handleSubmit}>
                 <input placeholder="Add Task" value={inputValue} onChange={handleInputChange}/>
                 
-                
-     
-
-                <select name="category" id="category">
+                <select name="category" 
+                id="category"
+                value={selectedCategory}
+                onChange={handleCategoryChange}>
                 <option value="Academic">Academic</option>
                 <option value="Leisure">Leisure</option>
                 <option value="Business">Business</option>
@@ -104,7 +113,11 @@ export default function TodoList(){
                 <TodoItem/>
                 <TodoItem/> */}
 
-                {todos.map((todo, index)=>(<TodoItem key={index} nr={index} todo={todo} deleteTodo={handleDeleteTodo} />))}
+                {todos.map((todo, index)=>(<TodoItem    key={index}
+                nr={index}
+                todo={todo.todo}
+                category={todo.category}
+                deleteTodo={() => handleDeleteTodo(todo.id)} />))}
             </ul>
         </TodoListStyle>
     )
