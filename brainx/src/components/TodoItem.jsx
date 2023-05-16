@@ -34,7 +34,7 @@ button{
 &:hover{
     background-color: #d44a4a;
     h4, button{
-        color: ${primaryColor};
+        color: gray;
     }
 }
 &.checked{
