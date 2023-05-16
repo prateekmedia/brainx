@@ -69,14 +69,6 @@ export default function TodoList(){
 
     document.body.style = "background:#3ad4b0";
 
-    useEffect(() => {
-        const storedTodos = localStorage.getItem("todos");
-        if (storedTodos) {
-          setTodos(JSON.parse(storedTodos));
-        }
-      }, []);
-      
-
       useEffect(() => {
         localStorage.setItem("todos", JSON.stringify(todos));
       }, [todos]);
