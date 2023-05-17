@@ -12,10 +12,10 @@ width: 500px;
 background-color: #141414;
 border-radius: 5px;
 box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-h1{
+h1, h2{
     color: #ddd;
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 form{
     display: flex;
@@ -73,7 +73,6 @@ export default function TodoList(){
         localStorage.setItem("todos", JSON.stringify(todos));
       }, [todos]);
     
-      
      
       const handleSubmit = (e) => {
         e.preventDefault();
@@ -110,7 +109,8 @@ export default function TodoList(){
 
     return(
         <TodoListStyle>
-            <h1>Brainx</h1>
+            <h1>BrainX</h1>
+            <h2>Taskmaster</h2>
             <form onSubmit={handleSubmit}>
                 <input placeholder="Add Task" value={inputValue} onChange={handleInputChange}/>
                 

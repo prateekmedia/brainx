@@ -1,14 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
-import TodoList from './components/TodoList'
+import TodoList from './components/TodoList';
+import MemoryStack from './components/MemoryStack';
 
 function App() {
   return (
     <div className="App">
-      <TodoList/>
+      <div className="left">
+        <TodoList />
+      </div>
+      <div className="right">
+        <MemoryStack />
+      </div>
     </div>
   );
 }
 
 export default App;
-
