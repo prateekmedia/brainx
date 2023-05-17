@@ -112,37 +112,67 @@ const MemoryStackStyle = styled.div`
 `;
 
 export default function MemoryStack() {
-  const [blocks, setBlocks] = useState([]);
+    const [blocks, setBlocks] = useState([]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const input = event.target.elements.blockInput.value;
-    if (input) {
-      const newBlock = {
-        id: new Date().getTime(),
-        content: input,
+
+    const isURL = (input) => {
+        try {
+          new URL(input);
+          return true;
+        } catch (_) {
+          return false;
+        }
       };
-      setBlocks([...blocks, newBlock]);
-      event.target.reset();
-    }
-  };
+    
+             
 
-  return (
-    <MemoryStackStyle>
-      <h1>Memory Stack</h1>
-      <h2>Whatever you need to know</h2>
-      <form onSubmit={handleSubmit}>
-        <input name="blockInput" placeholder="What's on your mind?" />
-        <button type="submit">Add</button>
-      </form>
-      <div className="grid">
-        {blocks.map((block) => (
-          <div className="block" key={block.id}>
-            {block.content}
-          </div>
-        ))}
-      </div>
-    </MemoryStackStyle>
-  );
-}
-
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const input = event.target.elements.blockInput.value;
+        if (input) {
+          let blockContent;
+          let blockThumbnail;
+    
+          try {
+            const screenshotUrl = `https://api.screenshotmachine.com?key=c9c337&url=${encodeURIComponent(
+              input
+            )}&dimension=150x150`;
+            blockThumbnail = screenshotUrl;
+            blockContent = input;
+          } catch (error) {
+            blockContent = input;
+            
+            console.log("Error fetching screenshot:", error);
+          }
+    
+          const newBlock = {
+            id: new Date().getTime(),
+            content: blockContent,
+            thumbnail: blockThumbnail,
+          };
+          setBlocks([...blocks, newBlock]);
+          event.target.reset();
+        }
+      };
+      
+      
+  
+    return (
+      <MemoryStackStyle>
+        <h1>Memory Stack</h1>
+        <h2>Whatever you need to know</h2>
+        <form onSubmit={handleSubmit}>
+          <input name="blockInput" placeholder="What's on your mind?" />
+          <button type="submit">Add</button>
+        </form>
+        <div className="grid">
+          {blocks.map((block) => (
+            <div className="block" key={block.id}>
+              {block.thumbnail && <img src={block.thumbnail} alt="Thumbnail" />}
+              {!block.thumbnail && <span>{block.content}</span>}
+            </div>
+          ))}
+        </div>
+      </MemoryStackStyle>
+    );
+  }
