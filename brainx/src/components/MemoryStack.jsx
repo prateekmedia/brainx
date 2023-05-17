@@ -111,28 +111,26 @@ const MemoryStackStyle = styled.div`
 }
 `;
 
+const TextBlock = styled.div`
+  max-width: 300px; /* Adjust the maximum width as needed */
+`;
+
 export default function MemoryStack() {
     const [blocks, setBlocks] = useState([]);
-
-
+  
     const isURL = (input) => {
-        try {
-          new URL(input);
-          return true;
-        } catch (_) {
-          return false;
-        }
-      };
-    
-             
-
+      const urlPattern = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,})(:\d{1,5})?\/?$/;
+      return urlPattern.test(input);
+    };
+  
     const handleSubmit = async (event) => {
-        event.preventDefault();
-        const input = event.target.elements.blockInput.value;
-        if (input) {
-          let blockContent;
-          let blockThumbnail;
-    
+      event.preventDefault();
+      const input = event.target.elements.blockInput.value;
+      if (input) {
+        let blockContent;
+        let blockThumbnail;
+  
+        if (isURL(input)) {
           try {
             const screenshotUrl = `https://api.screenshotmachine.com?key=c9c337&url=${encodeURIComponent(
               input
@@ -140,21 +138,22 @@ export default function MemoryStack() {
             blockThumbnail = screenshotUrl;
             blockContent = input;
           } catch (error) {
-            blockContent = input;
-            
+            // Handle error fetching screenshot
             console.log("Error fetching screenshot:", error);
           }
-    
-          const newBlock = {
-            id: new Date().getTime(),
-            content: blockContent,
-            thumbnail: blockThumbnail,
-          };
-          setBlocks([...blocks, newBlock]);
-          event.target.reset();
+        } else {
+          blockContent = input;
         }
-      };
-      
+  
+        const newBlock = {
+          id: new Date().getTime(),
+          content: blockContent,
+          thumbnail: blockThumbnail,
+        };
+        setBlocks([...blocks, newBlock]);
+        event.target.reset();
+      }
+    };
       
   
     return (
