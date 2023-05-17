@@ -1,57 +1,3 @@
-// import React from "react";
-// import styled from "styled-components";
-
-// const MemoryStackStyle = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   padding: 20px;
-
-//   h1 {
-//     font-size: 24px;
-//     margin-bottom: 10px;
-//   }
-
-//   h2 {
-//     font-size: 16px;
-//     margin-bottom: 20px;
-//   }
-
-//   form, input {
-//     width: 90%;
-//     padding: 10px;
-//     margin-right: 1rem;
-//     font-size: 16px;
-//     border: none;
-//     border-radius: 4px;
-//     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-//     outline: none;
-//   }
-//   button{
-//     border: none;
-//     padding: 0.5rem 1rem;
-//     border-radius: 0px 5px 5px 0px;
-//     background: #FFF;
-//     color: #141414;
-//     font-weight: 600;
-//     cursor: pointer;
-// }
-// `;
-
-// export default function MemoryStack() {
-//   return (
-//     <MemoryStackStyle>
-//       <h1>Memory Stack</h1>
-//       <h2>Whatever you need to know</h2>
-//     <form action="">
-//       <input placeholder="What's on your mind?" /> 
-//       <button type="submit">Add</button>
-//     </form>
-//     </MemoryStackStyle>
-//   );
-// }
-
 import React, { useState } from "react";
 import styled from "styled-components";
 
@@ -112,7 +58,11 @@ const MemoryStackStyle = styled.div`
 `;
 
 const TextBlock = styled.div`
-  max-width: 300px; /* Adjust the maximum width as needed */
+    background-color: #fff
+    max-width: 50px; 
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 4px;
 `;
 
 export default function MemoryStack() {
@@ -138,7 +88,6 @@ export default function MemoryStack() {
             blockThumbnail = screenshotUrl;
             blockContent = input;
           } catch (error) {
-            // Handle error fetching screenshot
             console.log("Error fetching screenshot:", error);
           }
         } else {
@@ -166,10 +115,10 @@ export default function MemoryStack() {
         </form>
         <div className="grid">
           {blocks.map((block) => (
-            <div className="block" key={block.id}>
-              {block.thumbnail && <img src={block.thumbnail} alt="Thumbnail" />}
-              {!block.thumbnail && <span>{block.content}</span>}
-            </div>
+            <TextBlock key={block.id}>
+            {block.thumbnail && <img src={block.thumbnail} alt="Thumbnail" />}
+            <p>{!block.thumbnail && block.content}</p>
+          </TextBlock>
           ))}
         </div>
       </MemoryStackStyle>
