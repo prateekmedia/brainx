@@ -1,5 +1,6 @@
+import { handleFormSubmit } from './memoryStackUtils';
 import { useEffect } from 'react';
-import { handleFormSubmit } from './path/to/your/formUtils';
+
 
 export function useExtensionHandler(blocks, setBlocks) {
   useEffect(() => {
@@ -8,10 +9,14 @@ export function useExtensionHandler(blocks, setBlocks) {
       setBlocks(updatedBlocks);
     };
 
-    chrome.runtime.onMessage.addListener(handleMessage);
+    if (chrome && chrome.runtime && chrome.runtime.onMessage) {
+      chrome.runtime.onMessage.addListener(handleMessage);
+    }
 
     return () => {
-      chrome.runtime.onMessage.removeListener(handleMessage);
+      if (chrome && chrome.runtime && chrome.runtime.onMessage) {
+        chrome.runtime.onMessage.removeListener(handleMessage);
+      }
     };
   }, [blocks, setBlocks]);
 }

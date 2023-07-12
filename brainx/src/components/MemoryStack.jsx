@@ -69,17 +69,6 @@ const TextBlock = styled.div`
 
 export default function MemoryStack() {
   const [blocks, setBlocks] = useState([]);
-
-
-  // useEffect(() => {
-  //   // Listener for messages from the extension
-  //   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  //     const updatedBlocks = handleFormSubmit(blocks, message);
-  //     setBlocks(updatedBlocks);
-  //   });
-  // }, [blocks]);
-  useExtensionHandler(blocks, setBlocks);
-
   
 
   const handleSubmit = (event) => {
@@ -89,13 +78,10 @@ export default function MemoryStack() {
     setBlocks(updatedBlocks);
     event.target.reset();
   };
+  
+   useExtensionHandler(blocks, setBlocks);
 
-//   // Code in your web app
-// chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-//   console.log("Message received from extension:", message);
 
-//   // Process the message or perform any desired action
-// });
 
   
     return (
