@@ -1,0 +1,34 @@
+{
+    "manifest_version": 2,
+    "name": "BrainX",
+    "version": "1.0",
+    "description": "BrainX extension",
+    "permissions": [
+        "contextMenus",
+        "tabs",
+        "http://localhost:5173/*"
+    ],
+    "browser_action": {
+      "default_popup": "popup.html",
+      "default_icon": "icon.png"
+    },
+    "icons": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    },
+    "content_scripts": [
+      {
+        "matches": [
+          "<all_urls>"
+        ],
+        "js": [
+          "content.js"
+        ],
+        "css": [
+          "styles.css"
+        ]
+      }
+    ]
+  }
+  

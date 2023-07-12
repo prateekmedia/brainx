@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { handleFormSubmit } from "./memoryStackUtils";
+import { useExtensionHandler } from './extensionHandler';
 
 const MemoryStackStyle = styled.div`
   display: flex;
@@ -66,44 +68,35 @@ const TextBlock = styled.div`
 `;
 
 export default function MemoryStack() {
-    const [blocks, setBlocks] = useState([]);
+  const [blocks, setBlocks] = useState([]);
+
+
+  // useEffect(() => {
+  //   // Listener for messages from the extension
+  //   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  //     const updatedBlocks = handleFormSubmit(blocks, message);
+  //     setBlocks(updatedBlocks);
+  //   });
+  // }, [blocks]);
+  useExtensionHandler(blocks, setBlocks);
+
   
-    const isURL = (input) => {
-      const urlPattern = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,})(:\d{1,5})?\/?$/;
-      return urlPattern.test(input);
-    };
-  
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      const input = event.target.elements.blockInput.value;
-      if (input) {
-        let blockContent;
-        let blockThumbnail;
-  
-        if (isURL(input)) {
-          try {
-            const screenshotUrl = `https://api.screenshotmachine.com?key=c9c337&url=${encodeURIComponent(
-              input
-            )}&dimension=150x150`;
-            blockThumbnail = screenshotUrl;
-            blockContent = input;
-          } catch (error) {
-            console.log("Error fetching screenshot:", error);
-          }
-        } else {
-          blockContent = input;
-        }
-  
-        const newBlock = {
-          id: new Date().getTime(),
-          content: blockContent,
-          thumbnail: blockThumbnail,
-        };
-        setBlocks([...blocks, newBlock]);
-        event.target.reset();
-      }
-    };
-      
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const input = event.target.elements.blockInput.value;
+    const updatedBlocks = handleFormSubmit(blocks, input);
+    setBlocks(updatedBlocks);
+    event.target.reset();
+  };
+
+//   // Code in your web app
+// chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+//   console.log("Message received from extension:", message);
+
+//   // Process the message or perform any desired action
+// });
+
   
     return (
       <MemoryStackStyle>
