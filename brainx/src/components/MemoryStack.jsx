@@ -121,7 +121,7 @@ export default function MemoryStack() {
       const updatedBlocks = handleFormSubmit(blocks, input);
       setBlocks(updatedBlocks);
       event.target.reset();
-      setSearchTerm(""); // Reset search term
+      setSearchTerm(""); 
     };
     
   
