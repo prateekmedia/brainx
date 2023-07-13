@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { handleFormSubmit } from "./memoryStackUtils";
 import { useExtensionHandler } from './extensionHandler';
@@ -48,7 +48,8 @@ const MemoryStackStyle = styled.div`
     padding: 10px;
     border-radius: 4px;
   }
-    button{
+  
+  button {
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 0px 5px 5px 0px;
@@ -56,23 +57,46 @@ const MemoryStackStyle = styled.div`
     color: #141414;
     font-weight: 600;
     cursor: pointer;
-}
-   
+  }
 `;
 
 const TextBlock = styled.div`
-    background-color: #fff
-    max-width: 50px; 
-    background-color: #f2f2f2;
-    padding: 10px;
-    border-radius: 4px;
+  background-color: #fff;
+  background-color: #f2f2f2;
+  padding: 10px;
+  border-radius: 4px;
 
-    .delete{
-      color: #ff0000;
-      border-radius: 500px;
-    }
+  text-align: left;
+
+  .delete {
+    color: #ff0000;
+    border-radius: 500px;
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 `;
 
+
+const ContentRow = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ChipRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 5px;
+`;
+
+const Chip = styled.div`
+  background-color: #337ab7;
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin-right: 5px;
+  color: #fff;
+  font-size: 12px;
+`;
 
 export default function MemoryStack() {
   const [blocks, setBlocks] = useState(() => {
@@ -92,15 +116,13 @@ export default function MemoryStack() {
     const newBlocks = [...blocks];
     newBlocks.splice(index, 1);
     setBlocks(newBlocks);
-  }
-
+  };
 
   useEffect(() => {
     localStorage.setItem("blocks", JSON.stringify(blocks));
   }, [blocks]);
 
   useExtensionHandler(blocks, setBlocks);
-
 
   return (
     <MemoryStackStyle>
@@ -113,12 +135,20 @@ export default function MemoryStack() {
       <div className="grid">
         {blocks.map((block, index) => (
           <TextBlock key={block.id}>
-            <button onClick={() => handleDelete(index)}>x</button>
-            {block.thumbnail && <img src={block.thumbnail} alt="Thumbnail" />}
-            <p>{!block.thumbnail && block.content}</p>
+            <ContentRow>
+              <button onClick={() => handleDelete(index)}>x</button>
+              {block.thumbnail && <img src={block.thumbnail} alt="Thumbnail" />}
+              <p>{!block.thumbnail && block.content}</p>
+            </ContentRow>
+            <ChipRow>
+
+              {block.tags.map((tag, index) => (
+                <Chip key={index} >{tag}</Chip>
+              ))}
+            </ChipRow>
           </TextBlock>
         ))}
       </div>
-    </MemoryStackStyle>
+    </MemoryStackStyle >
   );
 }

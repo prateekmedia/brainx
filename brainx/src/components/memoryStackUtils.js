@@ -25,7 +25,7 @@ export function handleFormSubmit(blocks, input) {
     let tags = Array(0);
 
     if (blockContent.split(" ").length > 5) {
-      tags = getTopTerms(blockContent, 5);
+      tags = getTopTerms(blockContent, 5, blocks);
     }
 
     const newBlock = {
@@ -62,9 +62,9 @@ function calculateTFIDF(documents, term) {
   return tfidfScores;
 }
 
-function getTopTerms(text, numTerms) {
-  const documents = [text];
-  const words = text.toLowerCase().split(' ').filter(word => word.length > 2);
+function getTopTerms(text, numTerms, blocks) {
+  const documents = [...blocks.map((block) => block.content), text.replace(/[^\w\s\d]|_/g, "").replace(/\s+/g, " ")];
+  const words = text.replace(/[^\w\s\d]|_/g, "").replace(/\s+/g, " ").toLowerCase().split(' ').filter(word => word.length > 2);
 
   const tfidfScores = {};
   words.forEach(word => {
