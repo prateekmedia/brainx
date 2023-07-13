@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { handleFormSubmit } from "./memoryStackUtils";
 import { useExtensionHandler } from './extensionHandler';
@@ -67,9 +67,12 @@ const TextBlock = styled.div`
     border-radius: 4px;
 `;
 
+
 export default function MemoryStack() {
-  const [blocks, setBlocks] = useState([]);
-  
+  const [blocks, setBlocks] = useState(() => {
+    const storedBlocks = localStorage.getItem("blocks");
+    return storedBlocks ? JSON.parse(storedBlocks) : [];
+  });
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -78,10 +81,13 @@ export default function MemoryStack() {
     setBlocks(updatedBlocks);
     event.target.reset();
   };
+
   
-   useExtensionHandler(blocks, setBlocks);
+  useEffect(() => {
+    localStorage.setItem("blocks", JSON.stringify(blocks));
+  }, [blocks]);
 
-
+  useExtensionHandler(blocks, setBlocks);
 
   
     return (

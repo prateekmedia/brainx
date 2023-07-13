@@ -23,7 +23,8 @@
           "<all_urls>"
         ],
         "js": [
-          "content.js"
+          "content.js",
+          "background.js"
         ],
         "css": [
           "styles.css"
