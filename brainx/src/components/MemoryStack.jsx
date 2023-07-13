@@ -99,18 +99,32 @@ const Chip = styled.div`
 `;
 
 export default function MemoryStack() {
+
+ const [searchTerm, setSearchTerm] = useState("");
+ const [searchResults, setSearchResults] = useState([]);
+
+ const handleSearch = (event) => {
+  event.preventDefault();
+  const term = event.target.elements.searchInput.value.toLowerCase();
+  setSearchTerm(term);
+};
+
+
   const [blocks, setBlocks] = useState(() => {
     const storedBlocks = localStorage.getItem("blocks");
     return storedBlocks ? JSON.parse(storedBlocks) : [];
   });
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const input = event.target.elements.blockInput.value;
-    const updatedBlocks = handleFormSubmit(blocks, input);
-    setBlocks(updatedBlocks);
-    event.target.reset();
-  };
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      const input = event.target.elements.blockInput.value;
+      const updatedBlocks = handleFormSubmit(blocks, input);
+      setBlocks(updatedBlocks);
+      event.target.reset();
+      setSearchTerm(""); // Reset search term
+    };
+    
+  
 
   const handleDelete = (index) => {
     const newBlocks = [...blocks];
@@ -132,8 +146,12 @@ export default function MemoryStack() {
         <input name="blockInput" placeholder="What's on your mind?" />
         <button type="submit">Add</button>
       </form>
+      <form onSubmit={handleSearch}>
+        <input name="searchInput" placeholder="Search tags..." />
+        <button type="submit">Search</button>
+      </form>
       <div className="grid">
-        {blocks.map((block, index) => (
+      {(searchTerm.trim() === "" ? blocks : searchResults).map((block, index) =>(
           <TextBlock key={block.id}>
             <ContentRow>
               <button onClick={() => handleDelete(index)}>x</button>
@@ -141,14 +159,14 @@ export default function MemoryStack() {
               <p>{!block.thumbnail && block.content}</p>
             </ContentRow>
             <ChipRow>
-
               {block.tags.map((tag, index) => (
-                <Chip key={index} >{tag}</Chip>
+                <Chip key={index}>{tag}</Chip>
               ))}
             </ChipRow>
           </TextBlock>
         ))}
       </div>
-    </MemoryStackStyle >
+    </MemoryStackStyle>
   );
+  
 }
