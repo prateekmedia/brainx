@@ -57,6 +57,7 @@ const MemoryStackStyle = styled.div`
     font-weight: 600;
     cursor: pointer;
 }
+   
 `;
 
 const TextBlock = styled.div`
@@ -65,6 +66,11 @@ const TextBlock = styled.div`
     background-color: #f2f2f2;
     padding: 10px;
     border-radius: 4px;
+
+    .delete{
+      color: #ff0000;
+      border-radius: 500px;
+    }
 `;
 
 
@@ -81,6 +87,12 @@ export default function MemoryStack() {
     setBlocks(updatedBlocks);
     event.target.reset();
   };
+
+  const handleDelete = (index) =>{
+    const newBlocks = [...blocks];
+    newBlocks.splice(index, 1);
+    setBlocks(newBlocks);
+  }
 
   
   useEffect(() => {
@@ -99,8 +111,9 @@ export default function MemoryStack() {
           <button type="submit">Add</button>
         </form>
         <div className="grid">
-          {blocks.map((block) => (
+          {blocks.map((block, index) => (
             <TextBlock key={block.id}>
+              <button onClick={() => handleDelete(index)}>x</button>
             {block.thumbnail && <img src={block.thumbnail} alt="Thumbnail" />}
             <p>{!block.thumbnail && block.content}</p>
           </TextBlock>
