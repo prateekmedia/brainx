@@ -22,7 +22,7 @@ export function handleFormSubmit(blocks, input) {
       blockContent = input;
     }
 
-    let tags;
+    let tags = Array(0);
 
     if (blockContent.split(" ").length > 5) {
       tags = getTopTerms(blockContent, 5);
