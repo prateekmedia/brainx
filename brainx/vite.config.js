@@ -7,8 +7,8 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: 'src/main.js', // Entry point for your React app
-        extension: 'src/extension/extension.js', // Entry point for your extension
+        main: 'src/main.jsx', // Entry point for your React app
+        extension: 'src/components/extensionHandler.js', // Entry point for your extension
       },
     },
   },
