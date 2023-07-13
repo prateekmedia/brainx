@@ -27,7 +27,6 @@ export function handleFormSubmit(blocks, input) {
     if (blockContent.split(" ").length > 5) {
       tags = getTopTerms(blockContent, 5);
     }
-    console.log(tags);
 
     const newBlock = {
       id: new Date().getTime(),
