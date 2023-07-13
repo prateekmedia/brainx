@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { handleFormSubmit } from "./memoryStackUtils";
 import { useExtensionHandler } from './extensionHandler';
@@ -88,37 +88,37 @@ export default function MemoryStack() {
     event.target.reset();
   };
 
-  const handleDelete = (index) =>{
+  const handleDelete = (index) => {
     const newBlocks = [...blocks];
     newBlocks.splice(index, 1);
     setBlocks(newBlocks);
   }
 
-  
+
   useEffect(() => {
     localStorage.setItem("blocks", JSON.stringify(blocks));
   }, [blocks]);
 
   useExtensionHandler(blocks, setBlocks);
 
-  
-    return (
-      <MemoryStackStyle>
-        <h1>Memory Stack</h1>
-        <h2>Whatever you need to know</h2>
-        <form onSubmit={handleSubmit}>
-          <input name="blockInput" placeholder="What's on your mind?" />
-          <button type="submit">Add</button>
-        </form>
-        <div className="grid">
-          {blocks.map((block, index) => (
-            <TextBlock key={block.id}>
-              <button onClick={() => handleDelete(index)}>x</button>
+
+  return (
+    <MemoryStackStyle>
+      <h1>Memory Stack</h1>
+      <h2>Whatever you need to know</h2>
+      <form onSubmit={handleSubmit}>
+        <input name="blockInput" placeholder="What's on your mind?" />
+        <button type="submit">Add</button>
+      </form>
+      <div className="grid">
+        {blocks.map((block, index) => (
+          <TextBlock key={block.id}>
+            <button onClick={() => handleDelete(index)}>x</button>
             {block.thumbnail && <img src={block.thumbnail} alt="Thumbnail" />}
             <p>{!block.thumbnail && block.content}</p>
           </TextBlock>
-          ))}
-        </div>
-      </MemoryStackStyle>
-    );
-  }
+        ))}
+      </div>
+    </MemoryStackStyle>
+  );
+}
