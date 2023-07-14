@@ -98,33 +98,38 @@ const Chip = styled.div`
   font-size: 12px;
 `;
 
+
 export default function MemoryStack() {
-
- const [searchTerm, setSearchTerm] = useState("");
- const [searchResults, setSearchResults] = useState([]);
-
- const handleSearch = (event) => {
-  event.preventDefault();
-  const term = event.target.elements.searchInput.value.toLowerCase();
-  setSearchTerm(term);
-};
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
   const [blocks, setBlocks] = useState(() => {
     const storedBlocks = localStorage.getItem("blocks");
     return storedBlocks ? JSON.parse(storedBlocks) : [];
   });
 
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      const input = event.target.elements.blockInput.value;
-      const updatedBlocks = handleFormSubmit(blocks, input);
-      setBlocks(updatedBlocks);
-      event.target.reset();
-      setSearchTerm(""); 
-    };
-    
-  
+  const handleSearch = (event) => {
+    event.preventDefault();
+    const term = searchTerm.toLowerCase().trim();
+
+    if (term === "") {
+      setSearchResults([]);
+    } else {
+      const results = blocks.filter((block) =>
+        block.tags.some((tag) => tag.toLowerCase().includes(term))
+      );
+      setSearchResults(results);
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const input = event.target.elements.blockInput.value;
+    const updatedBlocks = handleFormSubmit(blocks, input);
+    setBlocks(updatedBlocks);
+    event.target.reset();
+    setSearchTerm("");
+  };
 
   const handleDelete = (index) => {
     const newBlocks = [...blocks];
@@ -138,6 +143,8 @@ export default function MemoryStack() {
 
   useExtensionHandler(blocks, setBlocks);
 
+  const renderedBlocks = searchTerm.trim() === "" ? blocks : searchResults;
+
   return (
     <MemoryStackStyle>
       <h1>Memory Stack</h1>
@@ -147,11 +154,16 @@ export default function MemoryStack() {
         <button type="submit">Add</button>
       </form>
       <form onSubmit={handleSearch}>
-        <input name="searchInput" placeholder="Search tags..." />
+        <input
+          name="searchInput"
+          placeholder="Search tags..."
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+        />
         <button type="submit">Search</button>
       </form>
       <div className="grid">
-      {(searchTerm.trim() === "" ? blocks : searchResults).map((block, index) =>(
+        {renderedBlocks.map((block, index) => (
           <TextBlock key={block.id}>
             <ContentRow>
               <button onClick={() => handleDelete(index)}>x</button>
@@ -168,5 +180,4 @@ export default function MemoryStack() {
       </div>
     </MemoryStackStyle>
   );
-  
 }
